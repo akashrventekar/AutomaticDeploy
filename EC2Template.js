@@ -193,9 +193,9 @@
 								"chkconfig httpd on\n",
 								"openssl genrsa -des3 -passout pass:xyz -out server.pass.key 2048 \n",
 								"openssl rsa -passin pass:xyz -in server.pass.key -out server.key \n",
-								"rm server.pass.key \n",
+								"rm -f server.pass.key \n",
 								"openssl req -new -key server.key -out server.csr -subj '/C=US/ST=PA/L=Philadelphia/O=Comcast/OU=IT Department/CN=www.example.com' \n",
-								"openssl x509 -req -days 365 -in server.csr -signkey /etc/ssl/server.key -out /etc/ssl/server.crt \n",
+								"openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt \n",
 								"mv -f server.crt /etc/ssl \n",
 								"mv -f server.key /etc/ssl \n"
 							]
