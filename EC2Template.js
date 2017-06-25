@@ -9,7 +9,12 @@
       "Type": "AWS::EC2::KeyPair::KeyName",
       "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
     },
-
+	"IamInstanceProfile" : 
+	{
+		"Description" : "Amazon IamInstanceProfile",
+		"Type" : "String",
+		"Default" : "EC2FullAccess"
+	},
     "InstanceType" : {
       "Description" : "WebServer EC2 instance type",
       "Type" : "String",
@@ -168,6 +173,7 @@
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
         "InstanceType" : { "Ref" : "InstanceType" },
+		"IamInstanceProfile" : { "Ref" : "IamInstanceProfile" },
         "SecurityGroups" : [ { "Ref" : "InstanceSecurityGroup" } ],
         "KeyName" : { "Ref" : "KeyName" },
         "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
