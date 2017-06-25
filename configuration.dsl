@@ -47,7 +47,7 @@ freeStyleJob(jobName){
                 currentBuild()
             }
           }
-    }
+
 }
 
 jobName=listViewName + "-execute-tests"
