@@ -5,7 +5,7 @@ buildNo="$BUILD_NUMBER";
 
 
 jobName=listViewName+"-prep"
-freeStyleJob(jobName){
+job(jobName){
 	parameters 
 	{
 		stringParam('BRANCH_NAME', branchName, 'The branch name or tag that must be built')
@@ -32,7 +32,7 @@ freeStyleJob(jobName){
 }
 
 jobName=listViewName + "-provision-infra"
-freeStyleJob(jobName){
+job(jobName){
     parameters {
         stringParam('BRANCH_NAME', branchName, 'The branch name or tag that must be built')
     }
