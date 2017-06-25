@@ -181,7 +181,7 @@
 								"#!/bin/bash\n",
 								"yum update -y\n",
 								"yum install httpd -y \n",
-								"echo '<html><head><title>Hello World</title></head><body><h1>Hello World!</h1></body></html>' > /var/www/html/index.html \n",
+								"/usr/bin/aws s3 cp s3://cf-templates-1oovhy8v24ee5-us-east-1/index.html /var/www/html/index.html --region us-east-1 \n",
 								"service httpd start\n",
 								"chkconfig --add httpd\n",
 								"chkconfig httpd on\n"
