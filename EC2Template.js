@@ -197,7 +197,10 @@
 								"openssl req -new -key server.key -out server.csr -subj '/C=US/ST=PA/L=Philadelphia/O=Comcast/OU=IT Department/CN=www.example.com' \n",
 								"openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt \n",
 								"mv -f server.crt /etc/ssl \n",
-								"mv -f server.key /etc/ssl \n"
+								"mv -f server.key /etc/ssl \n",
+								"echo -e "<VirtualHost *:80> \n RewriteEngine On \nRewriteCond %{HTTPS} off\nRewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]\n</VirtualHost>" >> /etc/httpd/conf/httpd.conf \n",
+								"sed -i 's|/etc/pki/tls/certs/localhost.crt|/etc/ssl/server.crt|g' ssl.conf\n",
+								"sed -i 's|/etc/pki/tls/private/localhost.key|/etc/ssl/server.key|g' ssl.conf\n"
 							]
 						]
 					}
