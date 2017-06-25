@@ -70,12 +70,7 @@ freeStyleJob(jobName){
     steps{
         shell('/usr/bin/python Test.py')
     }
-	publishers{
-		 trigger (listViewName + '-integration-env-tear-down',null, 'SUCCESS'){
-              currentBuild()
-            }
-	}
-	 
+	
 }
 
 jobName=listViewName + "-env-tear-down"
