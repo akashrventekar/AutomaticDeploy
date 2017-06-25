@@ -23,12 +23,13 @@ job(jobName){
 	deliveryPipelineConfiguration('Launcher', jobName)
 	steps{
         shell('aws s3 cp /var/lib/jenkins/workspace/DeployMyWebServer-seed/index.html s3://cf-templates-1oovhy8v24ee5-us-east-1/index.html  --region us-east-1')
-	}
-	 postBuildSteps {
-            trigger (listViewName + '-execute-integration-tests', 'SUCCESS'){
+		trigger (listViewName + '-execute-integration-tests', 'SUCCESS'){
                 currentBuild()
-            }
-    }
+        }
+	}
+	 
+            
+
 }
 
 jobName=listViewName + "-provision-infra"
@@ -42,11 +43,6 @@ job(jobName){
     steps{
 		shell('aws cloudformation create-stack --stack-name WebServer --template-body file:///var/lib/jenkins/workspace/DeployMyWebServer-seed/EC2Template.js --parameters ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyName,ParameterValue=My-Jenkins-Server ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0  --region us-east-1' )
     }
-        downstreamParameterized {
-            trigger (listViewName + '-execute-tests', 'SUCCESS'){
-                currentBuild()
-            }
-          }
 
 }
 
@@ -66,18 +62,6 @@ freeStyleJob(jobName){
         shell('echo '+buildNo)
         shell('/usr/bin/python multicftTest.py test ucs-test u1fz73fklj dqac3fajb8')
     }
-    publishers {
-        extendedEmail(notificationEmailAddressList,
-            notificationEmailSubjectTemplate,
-            notificationEmailContentTemplate) {
-          trigger('Always')
-        }
-        downstreamParameterized {
-            trigger (listViewName + '-env-tear-down', 'SUCCESS'){
-                currentBuild()
-            }
-          }
-    }
 }
 
 jobName=listViewName + "-execute-tests"
@@ -93,21 +77,25 @@ freeStyleJob(jobName){
     blockOnDownstreamProjects()
     
     steps{
-        shell('echo '+buildNo)
-        shell('/usr/bin/python multicftTest.py test ucs-test u1fz73fklj dqac3fajb8')
+        shell('/usr/bin/python Test.py')
     }
-    publishers {
-        extendedEmail(notificationEmailAddressList,
-            notificationEmailSubjectTemplate,
-            notificationEmailContentTemplate) {
-          trigger('Always')
-        }
-        downstreamParameterized {
-            trigger (listViewName + '-env-tear-down', 'SUCCESS'){
-                currentBuild()
-            }
-          }
-	}
+}
+
+jobName=listViewName + "-env-tear-down"
+freeStyleJob(jobName){
+    parameters {
+        stringParam('BRANCH_NAME', branchName, 'The branch name or tag that must be built')
+    }
+    wrappers{
+        colorizeOutput('xterm')
+
+    }
+    deliveryPipelineConfiguration("Acceptance", jobName)
+    blockOnDownstreamProjects()
+    
+    steps{
+        shell('aws cloudformation delete-stack --stack-name WebServer --region us-east-1')
+    }
 }
 
 
