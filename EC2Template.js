@@ -201,7 +201,8 @@
 								"sed -i 's|/etc/pki/tls/private/localhost.key|/etc/ssl/server.key|g' /etc/httpd/conf.d/ssl.conf\n",
 								"service httpd start\n",
 								"chkconfig --add httpd\n",
-								"chkconfig httpd on\n"
+								"chkconfig httpd on\n",
+								"service httpd restart"
 							]
 						]
 					}
