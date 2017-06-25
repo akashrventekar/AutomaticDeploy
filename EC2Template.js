@@ -188,9 +188,6 @@
 								"yum update -y\n",
 								"yum install httpd -y \n",
 								"/usr/bin/aws s3 cp s3://cf-templates-1oovhy8v24ee5-us-east-1/index.html /var/www/html/index.html --region us-east-1 \n",
-								"service httpd start\n",
-								"chkconfig --add httpd\n",
-								"chkconfig httpd on\n",
 								"openssl genrsa -des3 -passout pass:xyz -out server.pass.key 2048 \n",
 								"openssl rsa -passin pass:xyz -in server.pass.key -out server.key \n",
 								"rm -f server.pass.key \n",
@@ -201,7 +198,10 @@
 								"echo -e '<VirtualHost *:80> \n RewriteEngine On \nRewriteCond %{HTTPS} off\nRewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]\n</VirtualHost>' >> /etc/httpd/conf/httpd.conf \n",
 								"sudo yum install -y mod_ssl\n",
 								"sed -i 's|/etc/pki/tls/certs/localhost.crt|/etc/ssl/server.crt|g' /etc/httpd/conf.d/ssl.conf\n",
-								"sed -i 's|/etc/pki/tls/private/localhost.key|/etc/ssl/server.key|g' /etc/httpd/conf.d/ssl.conf\n"
+								"sed -i 's|/etc/pki/tls/private/localhost.key|/etc/ssl/server.key|g' /etc/httpd/conf.d/ssl.conf\n",
+								"service httpd start\n",
+								"chkconfig --add httpd\n",
+								"chkconfig httpd on\n"
 							]
 						]
 					}
