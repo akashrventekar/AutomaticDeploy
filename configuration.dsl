@@ -63,10 +63,6 @@ freeStyleJob(jobName){
     parameters {
         stringParam('BRANCH_NAME', branchName, 'The branch name or tag that must be built')
     }
-    wrappers{
-        colorizeOutput('xterm')
-
-    }
     deliveryPipelineConfiguration("Acceptance", jobName)
     blockOnDownstreamProjects()
     
