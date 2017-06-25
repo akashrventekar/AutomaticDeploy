@@ -36,14 +36,6 @@ freeStyleJob(jobName){
     parameters {
         stringParam('BRANCH_NAME', branchName, 'The branch name or tag that must be built')
     }
-    scm {
-        git{
-            remote{
-                url(CodeRepoUrl)
-            }
-            branch(branchName)
-        }
-    }
     deliveryPipelineConfiguration("Acceptance", jobName)
     blockOnDownstreamProjects()
     
@@ -51,7 +43,7 @@ freeStyleJob(jobName){
 		shell('aws cloudformation create-stack --stack-name WebServer --template-body file:///var/lib/jenkins/workspace/DeployMyWebServer-seed/EC2Template.js --parameters ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyName,ParameterValue=My-Jenkins-Server ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0  --region us-east-1' )
     }
         downstreamParameterized {
-            trigger (listViewName + '-execute-integration-tests', 'SUCCESS'){
+            trigger (listViewName + '-execute-tests', 'SUCCESS'){
                 currentBuild()
             }
           }
