@@ -199,8 +199,9 @@
 								"mv -f server.crt /etc/ssl \n",
 								"mv -f server.key /etc/ssl \n",
 								"echo -e '<VirtualHost *:80> \n RewriteEngine On \nRewriteCond %{HTTPS} off\nRewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]\n</VirtualHost>' >> /etc/httpd/conf/httpd.conf \n",
-								"sed -i 's|/etc/pki/tls/certs/localhost.crt|/etc/ssl/server.crt|g' ssl.conf\n",
-								"sed -i 's|/etc/pki/tls/private/localhost.key|/etc/ssl/server.key|g' ssl.conf\n"
+								"sudo yum install -y mod_ssl\n",
+								"sed -i 's|/etc/pki/tls/certs/localhost.crt|/etc/ssl/server.crt|g' /etc/httpd/conf.d/ssl.conf\n",
+								"sed -i 's|/etc/pki/tls/private/localhost.key|/etc/ssl/server.key|g' /etc/httpd/conf.d/ssl.conf\n"
 							]
 						]
 					}
