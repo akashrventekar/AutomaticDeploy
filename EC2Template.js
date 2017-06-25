@@ -195,8 +195,8 @@
 								"openssl rsa -passin pass:xyz -in server.pass.key -out server.key \n",
 								"rm server.pass.key \n",
 								"openssl req -new -key server.key -out server.csr -subj '/C=US/ST=PA/L=Philadelphia/O=Comcast/OU=IT Department/CN=www.example.com' \n",
-								"openssl x509 -req -days 365 -in server.csr -signkey /etc/ssl/server.key -out /etc/ssl/server.crt \n"
-								"mv -f server.crt /etc/ssl \n"
+								"openssl x509 -req -days 365 -in server.csr -signkey /etc/ssl/server.key -out /etc/ssl/server.crt \n",
+								"mv -f server.crt /etc/ssl \n",
 								"mv -f server.key /etc/ssl \n"
 							]
 						]
