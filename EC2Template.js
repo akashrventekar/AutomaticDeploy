@@ -199,10 +199,10 @@
 								"sudo yum install -y mod_ssl\n",
 								"sed -i 's|/etc/pki/tls/certs/localhost.crt|/etc/ssl/server.crt|g' /etc/httpd/conf.d/ssl.conf\n",
 								"sed -i 's|/etc/pki/tls/private/localhost.key|/etc/ssl/server.key|g' /etc/httpd/conf.d/ssl.conf\n",
+								"sleep 2\n",
 								"service httpd start\n",
 								"chkconfig --add httpd\n",
-								"chkconfig httpd on\n",
-								"service httpd restart"
+								"chkconfig httpd on\n"
 							]
 						]
 					}
