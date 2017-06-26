@@ -37,9 +37,17 @@ job(jobName){
     }
     deliveryPipelineConfiguration("Acceptance", jobName)
     blockOnDownstreamProjects()
-    
+    scm {
+        git{
+            remote{
+                url(CodeRepoUrl)
+                 }
+            branch(branchName)
+
+        }
+    }
     steps{
-		shell('aws cloudformation create-stack --stack-name WebServer --template-body file:///var/lib/jenkins/workspace/DeployMyWebServer-seed/EC2Template.js --parameters ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyName,ParameterValue=My-Jenkins-Server ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0  --region us-east-1' )
+		shell('aws cloudformation create-stack --stack-name WebServer --template-body file:///var/lib/jenkins/workspace/AutomaticDeploy-provision-infra/EC2Template.js --parameters ParameterKey=InstanceType,ParameterValue=t2.micro ParameterKey=KeyName,ParameterValue=My-Jenkins-Server ParameterKey=SSHLocation,ParameterValue=0.0.0.0/0  --region us-east-1' )
     }
 
 }
@@ -52,25 +60,19 @@ freeStyleJob(jobName){
 
     deliveryPipelineConfiguration("Acceptance", jobName)
     blockOnDownstreamProjects()
-    
+    scm {
+        git{
+            remote{
+                url(CodeRepoUrl)
+                 }
+            branch(branchName)
+
+        }
+    }
     steps{
         shell('echo '+buildNo)
-        shell('/usr/bin/python multicftTest.py test ucs-test u1fz73fklj dqac3fajb8')
+        shell('/usr/bin/python var/lib/jenkins/workspace/AutomaticDeploy-execute-tests/Test.py')
     }
-}
-
-jobName=listViewName + "-execute-tests"
-freeStyleJob(jobName){
-    parameters {
-        stringParam('BRANCH_NAME', branchName, 'The branch name or tag that must be built')
-    }
-    deliveryPipelineConfiguration("Acceptance", jobName)
-    blockOnDownstreamProjects()
-    
-    steps{
-        shell('/usr/bin/python Test.py')
-    }
-	
 }
 
 jobName=listViewName + "-env-tear-down"
