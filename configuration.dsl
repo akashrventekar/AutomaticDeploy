@@ -23,6 +23,7 @@ job(jobName){
 	deliveryPipelineConfiguration('Launcher', jobName)
 	steps{
         shell('aws s3 cp /var/lib/jenkins/workspace/AutomaticDeploy-prep/index.html s3://cf-templates-1oovhy8v24ee5-us-east-1/index.html  --region us-east-1')
+		shell('aws cloudformation wait stack-create-complete --stack-name WebServer --region us-east-1')
 		
 	}
 	
