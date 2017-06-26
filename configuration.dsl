@@ -22,7 +22,7 @@ job(jobName){
 	blockOnDownstreamProjects()
 	deliveryPipelineConfiguration('Launcher', jobName)
 	steps{
-        shell('aws s3 cp /var/lib/jenkins/workspace/DeployMyWebServer-seed/index.html s3://cf-templates-1oovhy8v24ee5-us-east-1/index.html  --region us-east-1')
+        shell('aws s3 cp /var/lib/jenkins/workspace/AutomaticDeploy-prep/index.html s3://cf-templates-1oovhy8v24ee5-us-east-1/index.html  --region us-east-1')
 		
 	}
 	
@@ -71,7 +71,7 @@ freeStyleJob(jobName){
     }
     steps{
         shell('echo '+buildNo)
-        shell('/usr/bin/python var/lib/jenkins/workspace/AutomaticDeploy-execute-tests/Test.py')
+        shell('/usr/bin/python /var/lib/jenkins/workspace/AutomaticDeploy-execute-tests/Test.py')
     }
 }
 
