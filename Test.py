@@ -16,4 +16,4 @@ for stack in summary:
         if stack['ResourceType'] ==  'AWS::CloudFormation::Stack' and stack['ResourceStatus'] ==  'CREATE_COMPLETE':
                 flag = 1
 if flag == 0:
-        raise ValueError('A very specific bad thing happened')
+        raise ValueError('Stack not present')
